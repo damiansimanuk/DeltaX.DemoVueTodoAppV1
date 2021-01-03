@@ -1,18 +1,13 @@
-﻿using DeltaX.DemoServerTodoAppV1.Dtos;
-using System;
-using System.Collections.Generic;
-using System.Linq;
-using System.Threading.Tasks;
-
-namespace DeltaX.DemoServerTodoAppV1.Repositories
+﻿namespace DeltaX.DemoServerTodoAppV1.Repositories
 {
+    using DeltaX.DemoServerTodoAppV1.Dtos;
+
     public interface ITodoRepository
     {
-        TodoDto Get(Guid id);
+        TodoDto Get(int id);
         PaginatingResultDto<TodoDto> GetAll(int skipCount = 0, int? maxResultCount = 10);
-        TodoDto Insert(TodoCreateDto item);
-        IEnumerable<TodoDto> InsertMany(IEnumerable<TodoCreateDto> items);
-        TodoDto Remove(Guid id);
+        TodoDto Insert(TodoCreateDto item); 
+        TodoDto Remove(int id);
         TodoDto Update(TodoUpdateDto item);
     }
 }

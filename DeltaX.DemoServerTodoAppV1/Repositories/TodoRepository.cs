@@ -1,14 +1,14 @@
-﻿using DeltaX.DemoServerTodoAppV1.Dtos;
-using Microsoft.Extensions.Logging;
-using System;
-using System.Collections.Generic;
-using System.Linq;
-using System.Threading.Tasks;
-
-namespace DeltaX.DemoServerTodoAppV1.Repositories
+﻿namespace DeltaX.DemoServerTodoAppV1.Repositories
 {
+    using DeltaX.DemoServerTodoAppV1.Dtos;
+    using Microsoft.Extensions.Logging;
+    using System;
+    using System.Collections.Generic;
+    using System.Linq;
+
     public class TodoRepository : ITodoRepository
     {
+        private static int idCounter = 1;
         private List<TodoDto> items;
         private ILogger<TodoRepository> logger;
 
@@ -18,7 +18,7 @@ namespace DeltaX.DemoServerTodoAppV1.Repositories
             this.logger = logger;
         }
 
-        public TodoDto Get(Guid id)
+        public TodoDto Get(int id)
         {
             return items.FirstOrDefault(i => i.Id == id);
         }
@@ -38,7 +38,7 @@ namespace DeltaX.DemoServerTodoAppV1.Repositories
         {
             var clone = new TodoDto
             {
-                Id = Guid.NewGuid(),
+                Id = idCounter++,
                 Description = item.Description,
                 Completed = item.Completed,
                 Created = DateTimeOffset.Now,
@@ -55,7 +55,7 @@ namespace DeltaX.DemoServerTodoAppV1.Repositories
             {
                 return new TodoDto
                 {
-                    Id = Guid.NewGuid(),
+                    Id = idCounter++,
                     Description = i.Description,
                     Completed = i.Completed,
                     Created = DateTimeOffset.Now,
@@ -67,7 +67,7 @@ namespace DeltaX.DemoServerTodoAppV1.Repositories
             return clones;
         }
 
-        public TodoDto Remove(Guid id)
+        public TodoDto Remove(int id)
         {
             var item = Get(id);
             if (item != null)

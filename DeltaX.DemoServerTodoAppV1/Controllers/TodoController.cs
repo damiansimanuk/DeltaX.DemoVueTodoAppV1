@@ -1,14 +1,14 @@
-﻿using DeltaX.DemoServerTodoAppV1.Dtos;
-using DeltaX.DemoServerTodoAppV1.Repositories;
-using Microsoft.AspNetCore.Mvc;
-using Microsoft.Extensions.Logging;
-using System;
-using System.Collections.Generic;
-using System.Linq;
-using System.Threading.Tasks;
-
-namespace DeltaX.DemoServerTodoAppV1.Controllers
+﻿namespace DeltaX.DemoServerTodoAppV1.Controllers
 {
+    using DeltaX.DemoServerTodoAppV1.Dtos;
+    using DeltaX.DemoServerTodoAppV1.Repositories;
+    using Microsoft.AspNetCore.Mvc;
+    using Microsoft.Extensions.Logging;
+    using System;
+    using System.Collections.Generic;
+    using System.Linq;
+
+
     [ApiController]
     [Route("[controller]")]
     public class TodoController : ControllerBase
@@ -31,13 +31,13 @@ namespace DeltaX.DemoServerTodoAppV1.Controllers
         }
 
         [HttpGet("Item/{id}")]
-        public TodoDto Get(Guid id)
+        public TodoDto Get(int id)
         {
             return repository.Get(id);
         }
 
         [HttpPut("Item/{id}")]
-        public TodoDto Update(Guid id, TodoUpdateDto item)
+        public TodoDto Update(int id, TodoUpdateDto item)
         {
             if (id != item.Id)
             {
@@ -54,7 +54,7 @@ namespace DeltaX.DemoServerTodoAppV1.Controllers
         }
 
         [HttpDelete("Item/{id}")]
-        public TodoDto Remove(Guid id)
+        public TodoDto Remove(int id)
         {
             return repository.Remove(id);
         }

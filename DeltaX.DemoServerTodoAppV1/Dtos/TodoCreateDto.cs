@@ -1,9 +1,4 @@
-﻿using System;
-using System.Collections.Generic;
-using System.Linq;
-using System.Threading.Tasks;
-
-namespace DeltaX.DemoServerTodoAppV1.Dtos
+﻿namespace DeltaX.DemoServerTodoAppV1.Dtos
 {
     public record TodoCreateDto
     { 
