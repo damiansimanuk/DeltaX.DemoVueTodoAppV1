@@ -10,7 +10,7 @@
 
 
     [ApiController]
-    [Route("[controller]")]
+    [Route("api/v1/[controller]")]
     public class TodoController : ControllerBase
     {
         private readonly ITodoRepository repository;
@@ -26,7 +26,7 @@
         public PaginatingResultDto<TodoDto> GetAll(
              [FromQuery] int skipCount = 0,
              [FromQuery] int? maxResultCount = 10)
-        {
+        { 
             return repository.GetAll(skipCount, maxResultCount);
         }
 
