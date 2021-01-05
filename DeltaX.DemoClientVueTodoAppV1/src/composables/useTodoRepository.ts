@@ -26,18 +26,19 @@ export default function useTodoRepositories() {
 
   const updateTodo = async (todo: TodoUpdateDto) => {
     const result = await request<TodoDto>("PUT", `/Todo/Item/${todo.id}`, todo)
-    getTodos(todos.value?.skipCount, todos.value?.totalCount)
+    getTodos(todos.value?.skipCount, todos.value?.maxResultCount)
     return result || null;
   }
 
   const createTodo = async (todo: TodoCreateDto) => {
     const result = await request<TodoDto>("POST", `/Todo/Items`, todo)
-    getTodos(todos.value?.skipCount, todos.value?.totalCount)
+    getTodos(todos.value?.skipCount, todos.value?.maxResultCount)
     return result || null;
   }
 
   const deleteTodo = async (id: number) => {
     const result = await request<TodoDto>("DELETE", `/Todo/Item/${id}`)
+    getTodos(todos.value?.skipCount, todos.value?.maxResultCount)
     return result || null;
   }
 

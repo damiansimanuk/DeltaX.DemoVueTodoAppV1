@@ -40,6 +40,18 @@ namespace DeltaX.DemoServerTodoAppV1
             {
                 c.SwaggerDoc("v1", new OpenApiInfo { Title = "DeltaX.DemoServerTodoAppV1", Version = "v1" });
             });
+
+            services.AddCors(options =>
+            {
+                options.AddPolicy("DefaultVueCors", builder =>
+                {
+                    builder
+                      .AllowAnyHeader()
+                      .AllowAnyMethod()
+                      .AllowCredentials()
+                      .WithOrigins("http://127.0.0.1:8080", "https://127.0.0.1:8081", "http://localhost:8080");
+                });
+            });
         }
 
         // This method gets called by the runtime. Use this method to configure the HTTP request pipeline.
@@ -55,6 +67,8 @@ namespace DeltaX.DemoServerTodoAppV1
             }
 
             // app.UseHttpsRedirection();
+
+            app.UseCors("DefaultVueCors");
 
             // serve wwwroot
             app.UseDefaultFiles();
