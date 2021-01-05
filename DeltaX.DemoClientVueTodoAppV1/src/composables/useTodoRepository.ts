@@ -2,9 +2,10 @@ import { PaginatingTodosDto, TodoCreateDto, TodoDto, TodoUpdateDto } from '@/dto
 import axios from '@/services/axios'
 import { ref, onMounted } from 'vue'
 
+export const status = ref({ loading: false, state: 0, message: "" });
+
 export default function useTodoRepositories() {
   const todos = ref({} as PaginatingTodosDto | null)
-  const status = ref({ loading: false, state: 0, message: "" })
   const { request } = axios(status)
 
   const clearStatus = () => {

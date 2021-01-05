@@ -1,5 +1,15 @@
 <template>
   <div class="container mx-auto py-3"> 
+    <div v-show="loading" class="h-2 relative max-w rounded-full overflow-hidden progressbar indeterminate">
+      <div class="w-full h-full bg-gray-200 absolute" />
+      <div class="h-full bg-green-500 absolute progressbar" style="width:10%" role="progressbar" />
+    </div> 
+    <div v-if="!loading && ![200, 201, 0].includes(status.state)" class="text-white px-6 py-2 border-0 rounded relative mb-4 bg-red-400"> 
+      <span class="inline-block align-middle mr-8">
+        <b>{{status.state}}</b> {{status.message}}
+      </span> 
+    </div>
+
     <div class="new-todo-form flex column my-2">
       <input
         class="shadow appearance-none border rounded w-full py-2 px-3 text-gray-700 leading-tight focus:outline-none focus:shadow-outline"
@@ -15,16 +25,16 @@
         </svg>
       </button> 
     </div>
-    <ul v-if="todos" > 
-      <div v-for="t in todos.items" :key="t.id"   >
+    <div v-if="todos" > 
+      <ul v-for="t in todos.items" :key="t.id"   >
         <TodoItem :todo="t" @update="onUpdate" @remove="onRemove" />
-      </div>
-    </ul>
+      </ul>
+    </div>
   </div>
 </template>
 
 <script lang="ts">
-import { ref, reactive } from 'vue'
+import { ref, watchEffect } from 'vue'
 import useTodoRepositories from "@/composables/useTodoRepository";
 import TodoItem from "@/components/TodoItem.vue"
 
@@ -33,13 +43,18 @@ export default {
     TodoItem
   },
 
-  setup () {
-    const state = reactive({
-      count: 0,
-    })
+  setup () { 
+    const loading = ref(false)
     const newTodo = ref("")
-    const { todos, getTodos, status, updateTodo, createTodo, deleteTodo } = useTodoRepositories()
- 
+    const { todos, getTodos, status, updateTodo, createTodo, deleteTodo } = useTodoRepositories() 
+   
+    watchEffect(() => { 
+      if(status.value.loading) loading.value = true;
+      else if (loading.value) {
+        setTimeout(()=> loading.value = status.value.loading, 200)
+      }
+    }) 
+
     const addTodo = async function () { 
       await createTodo({description: newTodo.value, completed: false})
       newTodo.value = "";
@@ -65,10 +80,10 @@ export default {
     }
 
     return {
+      loading,
       newTodo,
       addTodo,
-      todos, 
-      state,
+      todos,  
       status,  
       onUpdate,
       onRemove
@@ -76,3 +91,34 @@ export default {
   }
 }
 </script>
+
+<style scoped>
+@keyframes progress-indeterminate {
+  0% {
+    width: 20%;
+    left: -40%;
+  }
+  30% {
+    width: 40%;
+    left: -40%;
+  }
+  60% {
+    width: 80%;
+    left: -40%;
+  }
+  90% {
+    left: 100%;
+    width: 100%;
+  }
+  to {
+    left: 100%;
+    width: 0;
+  }
+}
+.progressbar {
+  transition: width 0.2s ease;
+}
+.indeterminate .progressbar {
+  animation: progress-indeterminate 0.8s ease infinite;
+}
+</style>
