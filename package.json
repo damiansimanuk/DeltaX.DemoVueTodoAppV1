@@ -1,0 +1,11 @@
+{
+  "name": "deltax.demovuetodoappv1",
+  "description": "csharp backend, Vue, LongPolling",
+  "scripts": {
+    "ci": "cd DeltaX.DemoClientVueTodoAppV1 && npm ci && exit 0",
+    "build": "cd DeltaX.DemoClientVueTodoAppV1 && npm run build && exit 0",
+    "serve": "cd DeltaX.DemoClientVueTodoAppV1 && npm run serve && exit 0",
+    "prueba": "cd DeltaX.DemoClientVueTodoAppV1 && echo a && exit 0"
+  },
+  "homepage": "https://github.com/damiansimanuk/DeltaX.DemoVueTodoAppV1"
+}
