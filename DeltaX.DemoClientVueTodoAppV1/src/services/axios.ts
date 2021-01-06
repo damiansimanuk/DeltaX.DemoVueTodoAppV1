@@ -2,8 +2,15 @@ import axios, { AxiosError, AxiosRequestConfig } from "axios";
 import { Ref } from 'vue'
 
 
-const axiosInstance = axios.create({
-    baseURL: "http://127.0.0.1:5010/api/v1",
+
+export const baseURL = process.env.NODE_ENV === 'development'
+    ? "http://127.0.0.1:5010/api/v1"
+    : "/api/v1"
+
+console.log("***** process.env.NODE_ENV", process.env.NODE_ENV, baseURL)
+
+export const axiosInstance = axios.create({
+    baseURL: baseURL,
     timeout: 5000,
     withCredentials: true
 });
@@ -19,10 +26,6 @@ axiosInstance.interceptors.request.use(
     },
     error => Promise.reject(error)
 );
-
-export {
-    axiosInstance
-}
 
 // Reactive request
 export default function (status: Ref<{ loading: boolean; state: number; message: string }>) {
