@@ -21,7 +21,9 @@ jobs:
       with:
         node-version: 12.x  
     - name: Clean Install Node  
+      working-director: ./DeltaX.DemoClientVueTodoAppV1 
       run: npm ci
-    - name: Build Vue Node  
+    - name: Build Vue Node 
+      working-director: ./DeltaX.DemoClientVueTodoAppV1 
       run: npm run build
       
