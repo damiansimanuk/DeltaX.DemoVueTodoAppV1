@@ -25,7 +25,10 @@ jobs:
       uses: actions/setup-node@v1
       with:
         node-version: ${{ matrix.node-version }}   
-    - working-directory: DeltaX.DemoVueTodoAppV1
-    - run: npm ci
-    - run: npm run build
+    - name: Clean Install Node 
+      working-directory: DeltaX.DemoVueTodoAppV1
+      run: npm ci
+    - name: Build Vue Node 
+      working-directory: DeltaX.DemoVueTodoAppV1
+      run: npm run build
       
