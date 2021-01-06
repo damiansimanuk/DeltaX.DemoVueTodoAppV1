@@ -20,10 +20,8 @@ jobs:
       uses: actions/setup-node@v1
       with:
         node-version: 12.x  
-    - name: Clean Install Node  
-      working-director: ./DeltaX.DemoClientVueTodoAppV1 
-      run: npm ci
-    - name: Build Vue Node 
-      working-director: ./DeltaX.DemoClientVueTodoAppV1 
+    - name: Clean Install Node   
+      run: npm run ci
+    - name: Build Vue Node  
       run: npm run build
       
