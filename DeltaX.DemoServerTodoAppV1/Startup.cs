@@ -1,6 +1,7 @@
 namespace DeltaX.DemoServerTodoAppV1
-{
+{ 
     using DeltaX.DemoServerTodoAppV1.Repositories;
+    using DeltaX.DemoServerTodoAppV1.Repositories.Sqlite; 
     using Microsoft.AspNetCore.Builder;
     using Microsoft.AspNetCore.Hosting;
     using Microsoft.Data.Sqlite;
@@ -9,6 +10,7 @@ namespace DeltaX.DemoServerTodoAppV1
     using Microsoft.Extensions.Hosting;
     using Microsoft.Extensions.Logging;
     using Microsoft.OpenApi.Models;
+    using System;
     using System.Data;
 
 
@@ -25,15 +27,22 @@ namespace DeltaX.DemoServerTodoAppV1
         public void ConfigureServices(IServiceCollection services)
         { 
             var connectionString = Configuration.GetConnectionString("DemoServerTodo");
+            
+            DapperSqliteTypeHandler.SetSqliteTypeHandler();
+
+            services.AddSingleton<ITodoCache, TodoCache>(services =>
+            {
+                var logger = services.GetService<ILogger<TodoCache>>();
+                return new TodoCache(logger, TimeSpan.FromHours(5), 1000);
+            });
+
             services.AddTransient<IDbConnection, SqliteConnection>(s =>
             {
                 var db = new SqliteConnection(connectionString);
                 db.Open();
                 return db;
-            });
-
-            DapperSqliteTypeHandler.SetSqliteTypeHandler();
-            services.AddSingleton<ITodoRepository, TodoSqliteRepository>();
+            });          
+            services.AddTransient<ITodoRepository, TodoCacheRepository>(); 
 
             services.AddControllers();
             services.AddSwaggerGen(c =>

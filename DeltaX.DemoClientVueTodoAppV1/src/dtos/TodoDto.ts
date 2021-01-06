@@ -17,6 +17,12 @@ export interface TodoCreateDto {
     completed: boolean;
 }
 
+export interface TodoDtoDataTrackerResultDto {
+    items?: { updated: Date, reason: number, item: TodoDto }[];
+    first?: Date;
+    last?: Date;
+}
+
 export interface PaginatingTodosDto {
     items: TodoDto[];
     maxResultCount: number;

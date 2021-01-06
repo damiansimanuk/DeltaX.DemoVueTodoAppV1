@@ -35,7 +35,7 @@
 
 <script lang="ts">
 import { ref, watchEffect } from 'vue'
-import useTodoRepositories from "@/composables/useTodoRepository";
+import { todos, getTodos, status, updateTodo, createTodo, deleteTodo } from "@/composables/useTodoRepository";
 import TodoItem from "@/components/TodoItem.vue"
 
 export default {
@@ -45,8 +45,7 @@ export default {
 
   setup () { 
     const loading = ref(false)
-    const newTodo = ref("")
-    const { todos, getTodos, status, updateTodo, createTodo, deleteTodo } = useTodoRepositories() 
+    const newTodo = ref("") 
    
     watchEffect(() => { 
       if(status.value.loading) loading.value = true;
@@ -57,8 +56,7 @@ export default {
 
     const addTodo = async function () { 
       await createTodo({description: newTodo.value, completed: false})
-      newTodo.value = "";
-      getTodos(todos.value?.skipCount, todos.value?.maxResultCount);
+      newTodo.value = ""; 
     }
 
     const onUpdate =  (id: number, description: string, completed: boolean)=> { 
@@ -83,6 +81,7 @@ export default {
       loading,
       newTodo,
       addTodo,
+      getTodos,
       todos,  
       status,  
       onUpdate,

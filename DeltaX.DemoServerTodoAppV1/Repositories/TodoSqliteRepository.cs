@@ -2,6 +2,7 @@
 {
     using Dapper;
     using DeltaX.DemoServerTodoAppV1.Dtos;
+    using DeltaX.DemoServerTodoAppV1.Repositories.Sqlite; 
     using Microsoft.Extensions.Logging;
     using System;
     using System.Data;

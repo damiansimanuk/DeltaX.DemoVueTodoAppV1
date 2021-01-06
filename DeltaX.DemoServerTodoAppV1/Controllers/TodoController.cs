@@ -2,23 +2,27 @@
 {
     using DeltaX.DemoServerTodoAppV1.Dtos;
     using DeltaX.DemoServerTodoAppV1.Repositories;
+    using DeltaX.DemoServerTodoAppV1.Repositories.Tracker;
     using Microsoft.AspNetCore.Mvc;
     using Microsoft.Extensions.Logging;
     using System;
     using System.Collections.Generic;
     using System.Linq;
-
+    using System.Threading;
+    using System.Threading.Tasks;
 
     [ApiController]
     [Route("api/v1/[controller]")]
     public class TodoController : ControllerBase
     {
         private readonly ITodoRepository repository;
+        private readonly ITodoCache cache;
         private readonly ILogger<TodoController> _logger;
 
-        public TodoController(ITodoRepository repository, ILogger<TodoController> logger)
+        public TodoController(ITodoRepository repository, ITodoCache cache, ILogger<TodoController> logger)
         {
             this.repository = repository;
+            this.cache = cache;
             _logger = logger;
         }
 
@@ -69,6 +73,20 @@
                 Description = $"Hola mundo {index}"
             })
             .ToArray();
+        }
+
+        [HttpPost("Items/GetSince")]
+        public Task<DataTrackerResultDto<TodoDto>> GetSince(
+           CancellationToken cancellation,
+           [FromBody] GetTodoSinceRequestDto getSince
+           )
+        {
+            var since = getSince.Since ?? new DateTimeOffset(DateTime.Now); 
+            var timeout = TimeSpan.FromSeconds(getSince.Timeout);
+
+            bool filter(DataTracker<TodoDto> i) => i.Updated > since;
+
+            return cache.GetChangeItemsAsync(filter, timeout, cancellation);
         }
     }
 }

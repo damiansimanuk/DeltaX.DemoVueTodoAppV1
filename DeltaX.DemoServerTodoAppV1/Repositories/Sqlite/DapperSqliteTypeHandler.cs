@@ -1,4 +1,4 @@
-﻿namespace DeltaX.DemoServerTodoAppV1.Repositories
+﻿namespace DeltaX.DemoServerTodoAppV1.Repositories.Sqlite
 {
     using Dapper;
     using System;

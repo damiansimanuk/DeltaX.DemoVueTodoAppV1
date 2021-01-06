@@ -1,4 +1,4 @@
-﻿namespace DeltaX.DemoServerTodoAppV1.Repositories
+﻿namespace DeltaX.DemoServerTodoAppV1.Repositories.Sqlite
 {
     using Microsoft.Data.Sqlite;
     using Microsoft.Extensions.Logging;
@@ -16,6 +16,7 @@
         public static readonly string GetTodosPaged = "SELECT " +
             "Id, Description, Completed, Created, Updated " +
             "FROM Todos " +
+            "ORDER By Completed asc, Updated desc " +
             "LIMIT {RowsPerPage} OFFSET {SkipCount} ";
           
         public static readonly string InsertTodo = "INSERT INTO " +
