@@ -12,22 +12,12 @@ jobs:
     runs-on: ubuntu-latest
 
     steps:
-    - uses: actions/checkout@v2
-    - name: Setup Node.js for use with actions
-      uses: actions/setup-node@v1.1.0
-      with:
-        version:  12.x
+    - uses: actions/checkout@v2    
     - name: Setup .NET
       uses: actions/setup-dotnet@v1
       with:
-        dotnet-version: 5.0.101
-    - name: Node Clean install dependencies
-      working-directory: DeltaX.DemoVueTodoAppV1
-      run: npm ci
+        dotnet-version: 5.0.101    
     - name: Dotnet Restore dependencies
-      run: dotnet restore
-    - name: Node Build
-      working-directory: DeltaX.DemoVueTodoAppV1
-      run: npm run build
+      run: dotnet restore   
     - name: Dotnet Build
       run: dotnet build --no-restore
