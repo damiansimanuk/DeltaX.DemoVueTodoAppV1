@@ -55,20 +55,18 @@ export default defineComponent({
 
   emits:["update", "remove"],  
     
-  setup (prop, emits) {
+  setup (prop, ctx) {
     const editTodo = ref({ ...prop.todo, edit:false, newDescription:prop.todo.description } as TodoEdit)
 
     watch(prop, () => {
       editTodo.value.description = prop.todo.description;
       editTodo.value.completed = prop.todo.completed;
-    }) 
-    
-    console.log("onUpdate", emits)
+    })  
 
     const onUpdate = (completed?: boolean) => {  
       console.log("onUpdate", editTodo.value)
       const done: boolean = completed != null ? completed : editTodo.value.completed
-      emits.emit("update", editTodo.value.id, editTodo.value.description, done )
+      ctx.emit("update", editTodo.value.id, editTodo.value.description, done )
       editTodo.value.edit = false 
     }
 
@@ -81,7 +79,7 @@ export default defineComponent({
 
     const onRemove = () => {   
       console.log("onRemove", editTodo.value)
-      emits.emit("remove", editTodo.value.id)
+      ctx.emit("remove", editTodo.value.id)
     }
 
     return{
