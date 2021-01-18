@@ -71,6 +71,11 @@ namespace DeltaX.DemoServerTodoAppV1
             if (env.IsDevelopment())
             {
                 app.UseDeveloperExceptionPage();
+                
+            }
+
+            if (env.IsDevelopment() || Configuration.GetValue<bool>("UseSwagger"))
+            {
                 app.UseSwagger();
                 app.UseSwaggerUI(c => c.SwaggerEndpoint("/swagger/v1/swagger.json", "DeltaX.DemoServerTodoAppV1"));
             }
